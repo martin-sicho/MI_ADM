@@ -1,3 +1,5 @@
-/db.sqlite3
+.vagrant
+db.sqlite3
 .idea/
 *.pyc
+provisions/files
