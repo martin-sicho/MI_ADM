@@ -3,17 +3,21 @@
 <html>
     <head>
 
-        <!-- Compiled and minified Materialize CSS -->
+        <!-- Stylesheets -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css">
         <link rel="stylesheet" href="{% static "compound_db/css/nav.css" %}">
         <link rel="stylesheet" href="{% static "compound_db/css/footer.css" %}">
-        <link rel="stylesheet" href="{% static "compound_db/css/home.css" %}">
 
-        <!-- Compiled and minified JQuery and Materialize JavaScript -->
-        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+        {% block head_custom_css %}
+            {# override this in children to add new stylesheets to head #}
+        {% endblock %}
+
+        <!-- JavaScript -->
+        {% block head_custom_js %}
+            {# override this in children to add new javascript to head #}
+        {% endblock %}
 
     </head>
 
@@ -26,7 +30,7 @@
         {% endblock %}
 
         {% block base_content %}
-            (no content)
+            (no content) {# the content of the page inserted by derived template #}
         {% endblock %}
 
     <footer class="page-footer">
@@ -37,15 +41,6 @@
                     <h5 class="white-text">Additional Information</h5>
                     <p class="grey-text text-lighten-4">If you have any questions or suggestions, please, contact me.</p>
                 </div>
-{#                <div class="col l4 offset-l2 s12">#}
-{#                    <h5 class="white-text">Links</h5>#}
-{#                    <ul>#}
-{#                        <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>#}
-{#                        <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>#}
-{#                        <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>#}
-{#                        <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>#}
-{#                    </ul>#}
-{#                </div>#}
             </div>
         </div>
         <div class="footer-copyright">
@@ -55,21 +50,23 @@
             </div>
         </div>
 
-        {% block footer_js %}
-            <script>
-                $( document ).ready(function(){
-                    $(".dropdown-button").dropdown();
-
-                    $('.collapsible').collapsible({
-                        accordion : true // A setting that changes the collapsible behavior to expandable instead of the default accordion style
-                    });
-
-                    $(".button-collapse").sideNav();
-                })
-            </script>
-        {% endblock %}
-
     </footer>
+
+    <!-- JavaScript in the footer -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+    <script>
+        $( document ).ready(function(){
+            $(".dropdown-button").dropdown();
+            $(".button-collapse").sideNav();
+        })
+    </script>
+
+    {% block footer_custom_js %}
+        {# override this in children to add new javascript to the footer #}
+    {% endblock %}
+
 
     </body>
 </html>

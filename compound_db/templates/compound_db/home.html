@@ -1,5 +1,10 @@
-
 {% extends 'compound_db/base.html' %}
+
+{% load staticfiles %}
+
+{% block head_custom_css %}
+    <link rel="stylesheet" href="{% static "compound_db/css/home.css" %}">
+{% endblock %}
 
 {% block base_content %}
 
