@@ -31,6 +31,13 @@
     };
     $(window).resize(resizeCanvas);
 
+    var submitMol = function() {
+        var mol = chem_sketcher.getMolecule();
+{#        alert(ChemDoodle.writeMOL(mol));#}
+        $("#id_mol_file").val(ChemDoodle.writeMOL(mol))
+    };
+    $("#btn-save").click(submitMol);
+
     resizeCanvas();
     chem_sketcher.repaint();
 </script>

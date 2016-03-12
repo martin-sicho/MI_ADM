@@ -9,6 +9,7 @@
 {% block head_custom_css %}
     <link rel="stylesheet" href="{% static "compound_db/chemdoodle/ChemDoodleWeb.css" %}" type="text/css">{# required by the ChemDoodle Web Components library #}
     <link rel="stylesheet" href="{% static "compound_db/chemdoodle/uis/jquery-ui-1.10.3.custom.css" %}" type="text/css">{# required by the SketcherCanvas plugin #}
+    <link rel="stylesheet" href="{% static "compound_db/css/form.css" %}" type="text/css">
 {% endblock %}
 
 {% block head_custom_js %}
@@ -21,10 +22,13 @@
 {% block base_content %}
 
     <div class="container">
-        <h3>Add New Molecule to the Database</h3>
+        <h3>Add New Molecule</h3>
         <div class="divider"></div>
         <div class="section">
             <h4>Structure</h4>
+
+            {% include "compound_db/messages.html" with messages=messages %}
+
             <p>Use the applet below to draw the structure of the new molecule:</p>
 
             <div class="row">
@@ -39,15 +43,41 @@
                 <h4>Extra Information</h4>
                 <p>Fill in the form below to add some extra information:</p>
 
-                {# TODO: create the form here #}
+                <div class="add-mol-form-wrapper row">
+                    <form method="post" class="col s12">
+                        {% csrf_token %}
+
+                        {% if form.non_field_errors %}
+                            <ol>
+                                {% for error in form.non_field_errors.errors %}
+                                    <li><strong>{{ error|escape }}</strong></li>
+                                {% endfor %}
+                            </ol>
+                        {% endif %}
+
+                        <div class="row">
+                            {% for field in form.hidden_fields %}
+                                {{ field }}
+                            {% endfor %}
+
+                            {% for field in form.visible_fields %}
+                                {% include "compound_db/form_field.html" with field=field %}
+                            {% endfor %}
+                        </div>
+
+
+                        <button id="btn-save" class="btn waves-effect waves-light right" type="submit" name="action">Save
+                            <i class="material-icons right">send</i>
+                        </button>
+
+                    </form>
+                </div>
             </div>
-
         </div>
-
     </div>
 
 {% endblock %}
 
 {% block footer_custom_js %}
-    {% include "compound_db/sketcher_init.html" with sketcher_id="chemdoodle_sketcher" %}
+    {% include "compound_db/sketcher.html" with sketcher_id="chemdoodle_sketcher" %}
 {% endblock %}

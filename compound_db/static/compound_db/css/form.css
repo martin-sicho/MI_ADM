@@ -1,0 +1,16 @@
+::-webkit-input-placeholder {
+    color: #777277;
+    opacity: 1 !important; /* for chrome */
+}
+
+:-moz-placeholder { /* Firefox 18- */
+    color: #777277;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+    color: #777277;
+}
+
+:-ms-input-placeholder {
+   color: #777277;
+}
