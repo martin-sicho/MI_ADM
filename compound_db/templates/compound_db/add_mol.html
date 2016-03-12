@@ -1,15 +1,53 @@
 {% extends 'compound_db/base.html' %}
 
+{% load staticfiles %}
+
+{% block head_custom_start %}
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">{# required by the ChemDoodle Web Components library #}
+{% endblock %}
+
+{% block head_custom_css %}
+    <link rel="stylesheet" href="{% static "compound_db/chemdoodle/ChemDoodleWeb.css" %}" type="text/css">{# required by the ChemDoodle Web Components library #}
+    <link rel="stylesheet" href="{% static "compound_db/chemdoodle/uis/jquery-ui-1.10.3.custom.css" %}" type="text/css">{# required by the SketcherCanvas plugin #}
+{% endblock %}
+
+{% block head_custom_js %}
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"
+            integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw="
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{% static "compound_db/chemdoodle/ChemDoodleWeb.js" %}"></script>{# required by the ChemDoodle Web Components library #}
+    <script type="text/javascript" src="{% static "compound_db/chemdoodle/uis/ChemDoodleWeb-uis.js" %}"></script>{# required by the SketcherCanvas plugin #}
+{% endblock %}
 {% block base_content %}
 
     <div class="container">
+        <h3>Add New Molecule to the Database</h3>
+        <div class="divider"></div>
+        <div class="section">
+            <h4>Structure</h4>
+            <p>Use the applet below to draw the structure of the new molecule:</p>
 
-        <div class="row">
+            <div class="row">
+                <div class="sketcher col s8 offset-s2">
+                    <canvas id="chemdoodle_sketcher">
+                        {# the sketcher interface #}
+                    </canvas>
+                </div>
+            </div>
 
-            Add new mols here {# TODO: make this #}
+            <div class="section">
+                <h4>Extra Information</h4>
+                <p>Fill in the form below to add some extra information:</p>
+
+                {# TODO: create the form here #}
+            </div>
 
         </div>
 
     </div>
 
+{% endblock %}
+
+{% block footer_custom_js %}
+    {% include "compound_db/sketcher_init.html" with sketcher_id="chemdoodle_sketcher" %}
 {% endblock %}

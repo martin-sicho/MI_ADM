@@ -3,12 +3,15 @@
 <html>
     <head>
 
+        {% block head_custom_start %}
+            {# override this in children to add anything to the beginning of the header #}
+        {% endblock %}
+
         <!-- Stylesheets -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css">
         <link rel="stylesheet" href="{% static "compound_db/css/nav.css" %}">
-        <link rel="stylesheet" href="{% static "compound_db/css/footer.css" %}">
 
         {% block head_custom_css %}
             {# override this in children to add new stylesheets to head #}
@@ -53,7 +56,9 @@
     </footer>
 
     <!-- JavaScript in the footer -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"
+            integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
+            crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
 
     <script>

@@ -1,5 +1,8 @@
-.vagrant
-db.sqlite3
-.idea/
+/deps
+/db.sqlite3
+/.idea/
 *.pyc
-provisions/files
+
+# Vagrant stuff
+/.vagrant
+/provisions/files
