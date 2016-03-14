@@ -8,14 +8,10 @@
 
 {% block head_custom_css %}
     <link rel="stylesheet" href="{% static "compound_db/chemdoodle/ChemDoodleWeb.css" %}" type="text/css">{# required by the ChemDoodle Web Components library #}
-    <link rel="stylesheet" href="{% static "compound_db/chemdoodle/uis/jquery-ui-1.10.3.custom.css" %}" type="text/css">{# required by the SketcherCanvas plugin #}
     <link rel="stylesheet" href="{% static "compound_db/css/form.css" %}" type="text/css">
 {% endblock %}
 
 {% block head_custom_js %}
-    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"
-            integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw="
-            crossorigin="anonymous"></script>
     <script type="text/javascript" src="{% static "compound_db/chemdoodle/ChemDoodleWeb.js" %}"></script>{# required by the ChemDoodle Web Components library #}
     <script type="text/javascript" src="{% static "compound_db/chemdoodle/uis/ChemDoodleWeb-uis.js" %}"></script>{# required by the SketcherCanvas plugin #}
 {% endblock %}

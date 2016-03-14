@@ -11,10 +11,10 @@
     <div class="container">
 
         <div class="row">
-            <div class="search-form-wrapper col s12">
+            <div id="search-wrapper" class="search-form-wrapper col s12">
                 <form>
-                    <div class="input-field">
-                        <input id="search" type="search" required>
+                    <div class="input-field ui-widget">
+                        <input id="search" type="search" placeholder="Compund ID" required>
                         <label for="search"><i class="material-icons">search</i></label>
                         <i class="material-icons">close</i>
                     </div>
@@ -26,4 +26,25 @@
 
     </div>
 
+{% endblock %}
+
+{% block footer_custom_js %}
+    <script>
+        $(function() {
+            $("#search").autocomplete({
+                source: "{% url "compound_db:search_api" %}",
+                minLength: 2,
+                appendTo: '#search-wrapper'
+            }).data("ui-autocomplete")._renderItem = function (ul, item) {
+
+                ul.addClass('collection'); //Ul custom class here
+
+                return $("<li></li>")
+                        .addClass('collection-item') //item based custom class to li here
+                        .append("<a href='#'>" + item.label + "</a>")
+                        .data("ui-autocomplete-item", item)
+                        .appendTo(ul);
+            };
+        });
+    </script>
 {% endblock %}
