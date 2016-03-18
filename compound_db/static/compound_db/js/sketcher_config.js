@@ -1,4 +1,8 @@
-<script>
+/**
+ * Created by sichom on 3/18/16.
+ */
+
+var initChemSketcher = function() {
     var sketcher_height = 400;
     var options = {
         'oneMolecule' : true
@@ -6,10 +10,10 @@
         , 'includeQuery' : true
     };
     var chem_sketcher = new ChemDoodle.SketcherCanvas(
-            "chemdoodle_sketcher"
-            , 500
-            , sketcher_height
-            , options
+        "chemdoodle_sketcher"
+        , 500
+        , sketcher_height
+        , options
     );
 
     // sets terminal carbon labels to display
@@ -21,23 +25,23 @@
     // sets the shape color to improve contrast when drawing figures
     chem_sketcher.specs.shapes_color = 'c10000';
 
-    // because we do not load any content, we need to repaint the chem_sketcher, otherwise we would just see an empty area with the toolbar
-    // however, you can instead use one of the Canvas.load... functions to pre-populate the canvas with content, then you don't need to call repaint
-
-
+    // resize the canvas according to wrapper size on window size change
     var resizeCanvas = function() {
         var sketcher = $(".sketcher");
         chem_sketcher.resize(sketcher.width(), sketcher_height)
     };
     $(window).resize(resizeCanvas);
 
+    //
     var submitMol = function() {
         var mol = chem_sketcher.getMolecule();
-{#        alert(ChemDoodle.writeMOL(mol));#}
-        $("#id_mol_file").val(ChemDoodle.writeMOL(mol))
+        $(".mol_file_field").val(ChemDoodle.writeMOL(mol))
     };
-    $("#btn-save").click(submitMol);
+    $(".submit-form-with-mol").click(submitMol);
 
+    // make
     resizeCanvas();
+
+    // force repaint - just to be sure
     chem_sketcher.repaint();
-</script>
+};

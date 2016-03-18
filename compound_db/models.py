@@ -35,9 +35,7 @@ class Compound(models.Model):
             raise RuntimeError("No RDMol specified")
         description = args[1] if len(args) > 1 else None
         if not description:
-            description = kwargs['description'] if 'description' in kwargs else None
-        if not description:
-            raise RuntimeError("No description specified")
+            description = kwargs['description'] if 'description' in kwargs else ''
         new_kwargs = dict()
         new_kwargs['unique_id'] = self._generate_id()
         new_kwargs['smiles'] = Chem.MolToSmiles(mol_as_RDmol)

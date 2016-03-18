@@ -62,7 +62,7 @@
                         </div>
 
 
-                        <button id="btn-save" class="btn waves-effect waves-light right" type="submit" name="action">Save
+                        <button id="btn-save" class="submit-form-with-mol btn waves-effect waves-light right" type="submit" name="action">Save
                             <i class="material-icons right">send</i>
                         </button>
 
@@ -75,5 +75,8 @@
 {% endblock %}
 
 {% block footer_custom_js %}
-    {% include "compound_db/sketcher.html" with sketcher_id="chemdoodle_sketcher" %}
+    <script type="text/javascript" src="{% static "compound_db/js/sketcher_config.js" %}"></script>
+    <script>
+        initChemSketcher();
+    </script>
 {% endblock %}
