@@ -37,24 +37,26 @@
             (no content) {# the content of the page inserted by derived template #}
         {% endblock %}
 
-    <footer class="page-footer">
+        {% block page_footer %}
+            <footer class="page-footer">
 
-        <div class="container">
-            <div class="row">
-                <div class="col l6 s12">
-                    <h5 class="white-text">Additional Information</h5>
-                    <p class="grey-text text-lighten-4">If you have any questions or suggestions, please, contact me.</p>
+                <div class="container">
+                    <div class="row">
+                        <div class="col l6 s12">
+                            <h5 class="white-text">Additional Information</h5>
+                            <p class="grey-text text-lighten-4">If you have any questions or suggestions, please, contact me.</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="footer-copyright">
-            <div class="container">
-                © 2016 Martin Šícho
-                <a class="grey-text text-lighten-4 right" href="https://github.com/martin-sicho"><span class="octicon octicon-mark-github"></span> GitHub</a>
-            </div>
-        </div>
+                <div class="footer-copyright">
+                    <div class="container">
+                        © 2016 Martin Šícho
+                        <a class="grey-text text-lighten-4 right" href="https://github.com/martin-sicho"><span class="octicon octicon-mark-github"></span> GitHub</a>
+                    </div>
+                </div>
 
-    </footer>
+            </footer>
+        {% endblock %}
 
     <!-- JavaScript in the footer -->
     <script src="https://code.jquery.com/jquery-2.2.1.min.js"

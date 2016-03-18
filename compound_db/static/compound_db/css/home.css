@@ -2,14 +2,11 @@
     margin-top: 5%;
 }
 
-footer {
-	width:100%;
-	position:absolute;
-	bottom:0;
-	left:0;
+.ui-widget-content {
+    border: none;
+    background: none;
 }
 
-.ui-widget-content {
-	border: none;
-	background: none;
+.ui-autocomplete {
+    position: absolute;
 }

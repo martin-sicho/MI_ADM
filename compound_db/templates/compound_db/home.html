@@ -11,14 +11,32 @@
     <div class="container">
 
         <div class="row">
-            <div id="autocomplete-search-wrapper" class="search-form-wrapper col s12">
-                <form>
+            <div class="autocomplete-search-wrapper search-form-wrapper col s12">
+                <form id="basic-search-form" method="post" action="{% url "compound_db:search_api" %}">
+                    {% csrf_token %}
                     <div class="input-field ui-widget">
-                        <input id="autocomplete-search" type="search" placeholder="Compund ID" required>
-                        <label for="autocomplete-search"><i class="material-icons">search</i></label>
+                        <input name="basic_query" id="id_search" class="autocomplete-search" type="search">
+                        <label for="id_search"><i class="material-icons">search</i></label>
                         <i class="material-icons">close</i>
                     </div>
                 </form>
+            </div>
+
+            <div class=".search-buttons-wrapper row">
+                <div class="col s6">
+                    <button id="btn-search" class="btn waves-effect waves-light right" type="submit" name="search">Search
+                        <i class="material-icons right">search</i>
+                    </button>
+                </div>
+
+                <div class="col s6">
+                    <button id="btn-advanced-search" class="btn waves-effect waves-light left" name="advanced-search" onclick="alert('not implemented')">Advanced Search
+                    </button>
+                </div>
+            </div>
+
+            <div class="search-results">
+
             </div>
         </div>
 
@@ -28,11 +46,42 @@
 
 {% endblock %}
 
+{% block page_footer %}
+
+{% endblock %}
+
 {% block footer_custom_js %}
     <script type="text/javascript" src="{% static "compound_db/js/init_autocomplete.js" %}"></script>
     <script>
         $(function() {
-            initAutocomplete("{% url "compound_db:search_api" %}")
+            initAutocomplete("{% url "compound_db:autocomplete_api" %}")
+        });
+
+        var fetchData = function() {
+            var form = $('#basic-search-form');
+            var data = form.serialize();
+            var url = form.attr('action');
+            $.ajax({
+                url: url,
+                type: 'post',
+                dataType: 'json',
+                data: data,
+                success: function(data) {
+                    var results_wrapper = $('.search-results');
+                    results_wrapper.empty();
+                    results_wrapper.append(data['html'])
+                }
+            });
+        };
+
+        $('#btn-search').click(function() {
+            fetchData();
+            $('.messages').remove();
+        });
+
+        $('#basic-search-form').submit(function(e) {
+            fetchData();
+            e.preventDefault();
         });
     </script>
 {% endblock %}

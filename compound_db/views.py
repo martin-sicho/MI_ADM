@@ -1,18 +1,23 @@
 import json
 
 from django.contrib import messages
+from django.core import serializers
 from django.core.urlresolvers import resolve, reverse
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
+from rdkit.Chem import Draw
 
 from compound_db.forms import AddMolForm
 from rdkit import Chem
 import compound_db.models as models
 
-def search_api(req):
+JSON_MIME_TYPE = 'application/json'
+
+def autocomplete_api(req):
     if req.is_ajax():
         q = req.GET.get('term', '')
-        compounds = models.Compound.objects.filter(unique_id__icontains = q)[:20]
+        compounds = models.Compound.objects.filter(unique_id__icontains = q)[:5]
         results = []
         for idx, compound in enumerate(compounds):
             drug_json = dict()
@@ -23,8 +28,35 @@ def search_api(req):
         data = json.dumps(results)
     else:
         data = 'fail'
-    mimetype = 'application/json'
-    return HttpResponse(data, mimetype)
+    return HttpResponse(data, JSON_MIME_TYPE)
+
+def search_api(req):
+    if req.method == 'POST' and req.is_ajax():
+        data = json.dumps(req.POST)
+        if 'basic_query' in req.POST:
+            compounds = models.Compound.objects.filter(unique_id__icontains = req.POST.get('basic_query'))[:10]
+            data = json.loads(serializers.serialize("json", compounds))
+            for item in data:
+                del item['model']
+            ret = dict()
+            ret['data'] = data
+            ret['html'] = render_to_string("compound_db/compound_table.html", request=req, context={
+                'compounds' : compounds
+                , 'column_names' : ['ID', 'SMILES', 'Weight', 'Image']
+            })
+            return HttpResponse(json.dumps(ret), JSON_MIME_TYPE)
+        else:
+            return Http404('wrong query')
+    else:
+        raise Http404
+
+def molimages_api(req, unique_id):
+    compound = models.Compound.objects.get(unique_id=unique_id)
+    mol = Chem.MolFromSmiles(compound.smiles)
+    img = Draw.MolToImage(mol, size=(50,50))
+    response = HttpResponse(content_type="image/svg")
+    img.save(response, "PNG")
+    return response
 
 def home(req):
     return render(req, template_name="compound_db/home.html", context={

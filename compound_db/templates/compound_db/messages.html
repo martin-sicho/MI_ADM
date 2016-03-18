@@ -1,5 +1,5 @@
 {% if messages %}
-    <div class="card hoverable">
+    <div class="messages card hoverable">
         {% for message in messages %}
             <div class="message center-align {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR%}deep-orange lighten-2{% else %}green lighten-2{% endif %}">
                 <span class="{% if message.tags %}{{ message.tags }}{% endif %} flow-text">{{ message }}</span>

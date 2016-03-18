@@ -3,10 +3,10 @@
  */
 
 initAutocomplete = function(source_url) {
-    $("#autocomplete-search").autocomplete({
+    $(".autocomplete-search").autocomplete({
                 source: source_url,
                 minLength: 2,
-                appendTo: '#autocomplete-search-wrapper'
+                appendTo: '.autocomplete-search-wrapper'
             }).data("ui-autocomplete")._renderItem = function (ul, item) {
 
                 ul.addClass('collection'); //Ul custom class here

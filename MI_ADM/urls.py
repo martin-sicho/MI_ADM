@@ -20,5 +20,5 @@ import compound_db.urls
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^compund-db/', include(compound_db.urls))
+    url(r'^', include(compound_db.urls))
 ]
