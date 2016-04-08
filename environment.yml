@@ -23,6 +23,7 @@ dependencies:
 - libsodium=1.0.3=0
 - libtiff=4.0.6=1
 - libxml2=2.9.2=0
+- libxslt=1.1.28=0
 - markupsafe=0.23=py35_0
 - matplotlib=1.5.1=np110py35_0
 - mistune=0.7.1=py35_0
@@ -30,6 +31,7 @@ dependencies:
 - mkl-rt=11.1=p0
 - nbconvert=4.1.0=py35_0
 - nbformat=4.0.1=py35_0
+- ncurses=6.0=0
 - notebook=4.1.0=py35_0
 - numpy=1.10.4=py35_0
 - openssl=1.0.2g=0
@@ -38,7 +40,9 @@ dependencies:
 - pexpect=3.3=py35_0
 - pickleshare=0.5=py35_0
 - pillow=3.1.1=py35_0
-- pip=8.1.1=py35_0
+- pip=8.1.1=py35_1
+- postgresql=9.4.4=py35_0
+- psycopg2=2.6.1=py35_1
 - ptyprocess=0.5=py35_0
 - pygments=2.1.1=py35_0
 - pyparsing=2.0.3=py35_0
@@ -53,7 +57,7 @@ dependencies:
 - readline=6.2=2
 - scikit-learn=0.17.1=np110py35_0
 - scipy=0.17.0=np110py35_1
-- setuptools=20.3=py35_0
+- setuptools=20.6.7=py35_0
 - simplegeneric=0.8.1=py35_0
 - sip=4.16.9=py35_0
 - six=1.10.0=py35_0
