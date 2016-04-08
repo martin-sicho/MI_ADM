@@ -1,0 +1,6 @@
+<li class="{% if active == "add_mol" %}active{% endif %}">
+    <a href="{% url 'compound_db:add_mol' %}">Single Molecule</a>
+</li>
+<li class="{% if active == "add_chembl_mols" %}active{% endif %}">
+    <a href="{% url 'compound_db:add_chembl_mols' %}">Import ChEMBL Dataset</a>
+</li>

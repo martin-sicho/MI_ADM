@@ -92,3 +92,12 @@ def add_mol(req):
             , 'active_title' : 'Add Molecule'
         }
     })
+
+def add_chembl_mols(req):
+    return render(req, template_name="compound_db/add_chembl_mols.html", context={
+        'form' : 'no form'
+        , 'page_settings' : {
+            'navbar_active' : resolve(req.path_info).url_name
+            , 'active_title' : 'Add Molecule'
+        }
+    })

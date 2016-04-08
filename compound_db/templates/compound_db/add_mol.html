@@ -8,7 +8,6 @@
 
 {% block head_custom_css %}
     <link rel="stylesheet" href="{% static "compound_db/chemdoodle/ChemDoodleWeb.css" %}" type="text/css">{# required by the ChemDoodle Web Components library #}
-    <link rel="stylesheet" href="{% static "compound_db/css/form.css" %}" type="text/css">
 {% endblock %}
 
 {% block head_custom_js %}
@@ -34,40 +33,40 @@
                     </canvas>
                 </div>
             </div>
+        </div>
 
-            <div class="section">
-                <h4>Extra Information</h4>
-                <p>Fill in the form below to add some extra information:</p>
+        <div class="section">
+            <h4>Extra Information</h4>
+            <p>Fill in the form below to add some extra information:</p>
 
-                <div class="add-mol-form-wrapper row">
-                    <form method="post" class="col s12">
-                        {% csrf_token %}
+            <div class="add-mol-form-wrapper form-wrapper row">
+                <form method="post" class="col s12">
+                    {% csrf_token %}
 
-                        {% if form.non_field_errors %}
-                            <ol>
-                                {% for error in form.non_field_errors.errors %}
-                                    <li><strong>{{ error|escape }}</strong></li>
-                                {% endfor %}
-                            </ol>
-                        {% endif %}
-
-                        <div class="row">
-                            {% for field in form.hidden_fields %}
-                                {{ field }}
+                    {% if form.non_field_errors %}
+                        <ol>
+                            {% for error in form.non_field_errors.errors %}
+                                <li><strong>{{ error|escape }}</strong></li>
                             {% endfor %}
+                        </ol>
+                    {% endif %}
 
-                            {% for field in form.visible_fields %}
-                                {% include "compound_db/form_field.html" with field=field %}
-                            {% endfor %}
-                        </div>
+                    <div class="row">
+                        {% for field in form.hidden_fields %}
+                            {{ field }}
+                        {% endfor %}
+
+                        {% for field in form.visible_fields %}
+                            {% include "compound_db/form_field.html" with field=field %}
+                        {% endfor %}
+                    </div>
 
 
-                        <button id="btn-save" class="submit-form-with-mol btn waves-effect waves-light right" type="submit" name="action">Save
-                            <i class="material-icons right">send</i>
-                        </button>
+                    <button id="btn-save" class="submit-form-with-mol btn waves-effect waves-light right" type="submit" name="action">Save
+                        <i class="material-icons right">send</i>
+                    </button>
 
-                    </form>
-                </div>
+                </form>
             </div>
         </div>
     </div>
