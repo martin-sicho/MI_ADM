@@ -1,6 +1,6 @@
 import hashlib
 from datetime import datetime
-from django.db import models
+from django_rdkit import models
 from rdkit import Chem
 from rdkit.Chem import Descriptors, Lipinski
 
@@ -13,6 +13,7 @@ class Compound(models.Model):
     mol_weight_exact = models.FloatField(blank=False)
     heavy_atoms_count = models.IntegerField(blank=False)
     ring_count = models.IntegerField(blank=False)
+    mol = models.MolField()
 
     class MoleculeAlreadyExists(Exception):
         pass
@@ -44,6 +45,8 @@ class Compound(models.Model):
         new_kwargs['mol_weight_exact'] = Descriptors.ExactMolWt(mol_as_RDmol)
         new_kwargs['heavy_atoms_count'] = Lipinski.HeavyAtomCount(mol_as_RDmol)
         new_kwargs['ring_count'] = Lipinski.RingCount(mol_as_RDmol)
+        new_kwargs['mol'] = mol_as_RDmol
+
         super(Compound, self).__init__(description=description, **new_kwargs)
 
     def save(self, *args, **kwargs):

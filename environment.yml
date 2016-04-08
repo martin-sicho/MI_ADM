@@ -33,7 +33,7 @@ dependencies:
 - nbformat=4.0.1=py35_0
 - ncurses=6.0=0
 - notebook=4.1.0=py35_0
-- numpy=1.10.4=py35_0
+- numpy=1.10.4=py35_1
 - openssl=1.0.2g=0
 - pandas=0.17.1=np110py35_0
 - path.py=8.1.2=py35_1
@@ -54,6 +54,7 @@ dependencies:
 - qt=4.8.7=1
 - qtconsole=4.1.1=py35_0
 - rdkit=2015.09.2=np110py35_0
+- rdkit-postgresql=2015.09.2=py35_1
 - readline=6.2=2
 - scikit-learn=0.17.1=np110py35_0
 - scipy=0.17.0=np110py35_1
@@ -73,6 +74,7 @@ dependencies:
 - zlib=1.2.8=0
 - pip:
   - django==1.9.2
+  - django-rdkit==0.0.4
   - ipython-genutils==0.1.0
   - jupyter-client==4.1.1
   - jupyter-console==4.1.0
