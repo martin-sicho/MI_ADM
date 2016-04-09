@@ -7,8 +7,8 @@ from rdkit.Chem import Descriptors, Lipinski
 class Compound(models.Model):
     unique_id = models.CharField(max_length=13, unique=True, blank=False)
     description = models.TextField(blank=True)
-    smiles = models.CharField(max_length=2048, blank=False, unique=True)
-    inchi = models.CharField(max_length=2048, blank=False, unique=True)
+    smiles = models.CharField(max_length=4096, blank=False, unique=True)
+    inchi = models.CharField(max_length=4096, blank=False, unique=True)
     inchi_key = models.CharField(max_length=27, blank=False, unique=True)
     mol_weight_exact = models.FloatField(blank=False)
     heavy_atoms_count = models.IntegerField(blank=False)
@@ -60,3 +60,35 @@ class Compound(models.Model):
 class CompoundTrivialNames(models.Model):
     name = models.CharField(max_length=128, blank=False, unique=True)
     compound = models.ForeignKey(Compound)
+
+class ChEMBLTargetData(models.Model):
+
+    unique_id = models.CharField(max_length=13, unique=True, blank=False)
+    uniprot_accession = models.CharField(max_length=6, blank=False)
+    chembl_id = models.CharField(max_length=16, blank=False)
+    organism = models.CharField(max_length=128, blank=False)
+    preffered_name = models.CharField(max_length=128, blank=False)
+    description = models.TextField(blank=True)
+
+    def _generate_id(self):
+        number = datetime.now().timestamp()
+        number=int(number * 10e6) # get seconds
+        random_data = number.to_bytes(8, byteorder='big')
+        return 'MI-T-' + hashlib.md5(random_data).hexdigest()[:8]
+
+    def __init__(self, *args, **kwargs):
+        kwargs['unique_id'] = self._generate_id()
+        super(ChEMBLTargetData, self).__init__(*args, **kwargs)
+
+class ChEMBLBioassayData(models.Model):
+
+    compound = models.ForeignKey(Compound, null=False)
+    target_data = models.ForeignKey(ChEMBLTargetData, null=False)
+    assay_id = models.CharField(max_length=32, blank=True)
+    ingredient_cmpd_id = models.CharField(max_length=32, blank=True)
+    units = models.CharField(max_length=32, blank=True)
+    bioactivity_type = models.CharField(max_length=32, blank=True)
+    value = models.FloatField(null=True)
+    operator = models.CharField(max_length=32, blank=True)
+    activity_comment = models.CharField(max_length=64, blank=True)
+    target_confidence = models.IntegerField(null=True)

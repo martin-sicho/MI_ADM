@@ -1,18 +1,24 @@
 import json
 
+from chembl_webresource_client import TargetResource, CompoundResource
 from django.contrib import messages
 from django.core import serializers
 from django.core.urlresolvers import resolve, reverse
+from django.db import transaction, IntegrityError
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from rdkit.Chem import Draw
 
-from compound_db.forms import AddMolForm
+from compound_db.forms import AddMolForm, ImportChEMBLMols
 from rdkit import Chem
 import compound_db.models as models
+from compound_db.utils import is_number
 
 JSON_MIME_TYPE = 'application/json'
+
+CHEMBL_TARGETS_RESOURCE = TargetResource()
+CHEMBL_COMPOUNDS_RESOURCE = CompoundResource()
 
 def autocomplete_api(req):
     if req.is_ajax():
@@ -83,6 +89,8 @@ def add_mol(req):
                     messages.error(req, str(exp))
                 # except Exception:
                 #     messages.error(req, 'Unknown error has occured.')
+            else:
+                raise Exception('RDKit failed to read molecule.')
     else:
         form = AddMolForm()
     return render(req, template_name="compound_db/add_mol.html", context={
@@ -94,10 +102,69 @@ def add_mol(req):
     })
 
 def add_chembl_mols(req):
+    form = None
+    if req.method == 'POST':
+        form = ImportChEMBLMols(req.POST)
+        if form.is_valid():
+            # TODO: test if connection OK
+
+            skipped_compounds = [] # TODO: log this in the database for future review
+            with transaction.atomic():
+                target = form.cleaned_data['target']
+                target_data = models.ChEMBLTargetData(
+                    uniprot_accession=target['proteinAccession']
+                    , chembl_id=target['chemblId']
+                    , organism=target['organism']
+                    , preffered_name=target['preferredName']
+                    , description=form.cleaned_data['description']
+                )
+                target_data.save()
+
+                activities = CHEMBL_TARGETS_RESOURCE.bioactivities(target['chemblId'])
+                for idx,compound_activity in enumerate(activities):
+                    print('Processing {0}/{1}...'.format(idx, len(activities)))
+                    compound_data = CHEMBL_COMPOUNDS_RESOURCE.get(compound_activity['ingredient_cmpd_chemblid'])
+                    if type(compound_data) != dict \
+                            or 'smiles' not in compound_data \
+                            or not is_number(compound_activity['value']):
+                        skipped_compounds.append(compound_data)
+                        continue
+                    mol = Chem.MolFromSmiles(compound_data['smiles'])
+                    if mol:
+                        compound = models.Compound(mol, '')
+                        try:
+                            with transaction.atomic():
+                                compound.save()
+                        except models.Compound.MoleculeAlreadyExists:
+                            compound = models.Compound.objects.get(inchi_key=compound.inchi_key)
+                        except IntegrityError:
+                            skipped_compounds.append(compound_data) # FIXME: this results in a loss of activity data if an enantiomer is already in the database
+                            continue
+
+                        bioassay_data = models.ChEMBLBioassayData(
+                            compound=compound
+                            , target_data=target_data
+                            , assay_id=compound_activity['assay_chemblid']
+                            , ingredient_cmpd_id=compound_activity['ingredient_cmpd_chemblid']
+                            , units=compound_activity['units']
+                            , bioactivity_type=compound_activity['bioactivity_type']
+                            , value=float(compound_activity['value'])
+                            , operator=compound_activity['operator']
+                            , activity_comment=compound_activity['activity_comment']
+                            , target_confidence=compound_activity['target_confidence']
+                        )
+                        bioassay_data.save()
+                    else:
+                        skipped_compounds.append(compound_data)
+
+            return redirect(reverse('compound_db:home'))
+
+    else:
+        form = ImportChEMBLMols()
     return render(req, template_name="compound_db/add_chembl_mols.html", context={
-        'form' : 'no form'
+        'form' : form
         , 'page_settings' : {
             'navbar_active' : resolve(req.path_info).url_name
-            , 'active_title' : 'Add Molecule'
+            , 'active_title' : 'Import ChEMBL Dataset'
         }
     })

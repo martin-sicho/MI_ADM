@@ -43,13 +43,9 @@
                 <form method="post" class="col s12">
                     {% csrf_token %}
 
-                    {% if form.non_field_errors %}
-                        <ol>
-                            {% for error in form.non_field_errors.errors %}
-                                <li><strong>{{ error|escape }}</strong></li>
-                            {% endfor %}
-                        </ol>
-                    {% endif %}
+                {% if form.non_field_errors %}
+                    {% include "compound_db/form_nonfield_errors.html" with form=form %}
+                {% endif %}
 
                     <div class="row">
                         {% for field in form.hidden_fields %}

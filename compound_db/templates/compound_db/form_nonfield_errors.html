@@ -1,0 +1,5 @@
+<ol>
+    {% for error in form.non_field_errors.errors %}
+        <li><strong>{{ error|escape }}</strong></li>
+    {% endfor %}
+</ol>

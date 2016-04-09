@@ -4,19 +4,34 @@
 
 {% block base_content %}
     <div class="container">
-        <h3>Add New Molecules From the ChEMBL database</h3>
+        <h3>Import Molecules From ChEMBL</h3>
         <div class="divider"></div>
-        <div class="section">
-            <h4>Structure</h4>
+        {% include "compound_db/messages.html" with messages=messages %}
 
-            {% include "compound_db/messages.html" with messages=messages %}
+        <p>Import compounds that were tested for activity on a given target.</p>
 
-            <p>Import Molecules from ChEMBL...</p> {# TODO: implement #}
+        <div class="import-ChEMBL-form-wrapper form-wrapper row">
+            <form method="post" class="col s12">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    {% include "compound_db/form_nonfield_errors.html" with form=form %}
+                {% endif %}
+
+                <div class="row">
+                    {% for field in form.visible_fields %}
+                        {% include "compound_db/form_field.html" with field=field %}
+                    {% endfor %}
+                </div>
 
 
+                <button id="btn-save" class="submit-form-with-mol btn waves-effect waves-light right" type="submit" name="action">Save
+                    <i class="material-icons right">send</i>
+                </button>
 
-
+            </form>
         </div>
+
     </div>
 
 {% endblock %}
