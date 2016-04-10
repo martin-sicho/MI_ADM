@@ -1,5 +1,11 @@
+import os
+
 from chembl_webresource_client import TargetResource
 from django import forms
+from django.conf import settings
+
+from compound_db.utils import load_filter_choices
+
 
 class AddMolForm(forms.Form):
 
@@ -39,13 +45,7 @@ class ImportChEMBLMols(forms.Form):
     units = forms.MultipleChoiceField(
         widget=forms.SelectMultiple
         , required=False
-        , choices=(
-            ('All', 'All')
-            , ('nM', 'nM')
-            , ('uM', 'uM')
-            , ('percentage', '%')
-            , ('Unspecified', 'Unspecified')
-        )
+        , choices=load_filter_choices(os.path.join(settings.BASE_DIR, 'compound_db/units.txt'))
     )
 
     units_custom = forms.CharField(

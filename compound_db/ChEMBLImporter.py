@@ -26,6 +26,7 @@ class ChEMBLImporter:
         self.is_data_saved = False
         self.exceptions = []
         self.fatal_exception = None
+        filters.remove('')
         self.filters = filters
 
     def _check_response(self, compound_data, activity_info):
@@ -43,7 +44,7 @@ class ChEMBLImporter:
             return False
 
     def _apply_filters(self, activity_info):
-        if activity_info['units'] not in self.filters:
+        if 'All' not in self.filters['units'] and activity_info['units'] not in self.filters['units']:
             return False
 
     def save_data(self):
