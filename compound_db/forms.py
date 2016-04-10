@@ -36,6 +36,28 @@ class ImportChEMBLMols(forms.Form):
         , required=False
     )
 
+    units = forms.MultipleChoiceField(
+        widget=forms.SelectMultiple
+        , required=False
+        , choices=(
+            ('All', 'All')
+            , ('nM', 'nM')
+            , ('uM', 'uM')
+            , ('percentage', '%')
+            , ('Unspecified', 'Unspecified')
+        )
+    )
+
+    units_custom = forms.CharField(
+        required=False
+        , widget=forms.TextInput(
+            attrs={
+                'placeholder' : 'Other units to include in the final set (comma seperated).'
+            }
+        )
+        , label='Custom Units'
+    )
+
     def clean(self):
         cleaned_data = super(ImportChEMBLMols, self).clean()
         if 'target' in cleaned_data:
@@ -53,8 +75,5 @@ class ImportChEMBLMols(forms.Form):
                 self.add_error('target',
                                "This target record does not seem to exist on ChEMBL. "
                                "Make sure you are submitting a correct ID.")
-
-            if target:
-                cleaned_data['target'] = target
 
         return cleaned_data

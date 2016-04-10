@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="input-field col s12">
+        <div class="row">
+            <div class="col s8">
+                {{ field }}
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            </div>
+
+            {% if field.errors %}
+                <div class="col s4">
+                    <ul class="collection">
+                        {% for error in field.errors %}
+                            <li class="collection-item teal lighten-2"><strong>{{ error|escape }}</strong></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
