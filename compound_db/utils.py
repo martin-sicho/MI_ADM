@@ -15,3 +15,8 @@ def load_filter_choices(file, prepend=('All', 'All')):
             if line:
                 ret.append((line, line))
     return tuple(ret)
+
+def parse_filters(form, filter_key):
+    filter_options = set(form.cleaned_data[filter_key]) | set(form.cleaned_data[filter_key + '_custom'].split(','))
+    filter_options.remove('')
+    return filter_options

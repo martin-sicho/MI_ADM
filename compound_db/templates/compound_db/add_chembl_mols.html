@@ -36,6 +36,14 @@
 
                 {% include "compound_db/form_input_field.html" with field=form.units_custom %}
 
+                <h5>Bioactivity Types</h5>
+
+                <p>Select compounds for which the desired bioactivity types were studied.</p>
+
+                {% include "compound_db/form_muliple_choice_field.html" with field=form.bioactivity_types %}
+
+                {% include "compound_db/form_input_field.html" with field=form.bioactivity_types_custom %}
+
 
                 <button id="btn-save" class="submit-form-with-mol btn waves-effect waves-light" type="submit" name="action">Submit
                     <i class="material-icons right">send</i>

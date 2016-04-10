@@ -58,6 +58,22 @@ class ImportChEMBLMols(forms.Form):
         , label='Custom Units'
     )
 
+    bioactivity_types = forms.MultipleChoiceField(
+        widget=forms.SelectMultiple
+        , required=False
+        , choices=load_filter_choices(os.path.join(settings.BASE_DIR, 'compound_db/bioactivity_types.txt'))
+    )
+
+    bioactivity_types_custom = forms.CharField(
+        required=False
+        , widget=forms.TextInput(
+            attrs={
+                'placeholder' : 'Other bioactivity types to include in the final set (comma seperated).'
+            }
+        )
+        , label='Custom Bioactivity Types'
+    )
+
     def clean(self):
         cleaned_data = super(ImportChEMBLMols, self).clean()
         if 'target' in cleaned_data:

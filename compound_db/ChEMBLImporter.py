@@ -26,7 +26,6 @@ class ChEMBLImporter:
         self.is_data_saved = False
         self.exceptions = []
         self.fatal_exception = None
-        filters.remove('')
         self.filters = filters
 
     def _check_response(self, compound_data, activity_info):
@@ -43,9 +42,18 @@ class ChEMBLImporter:
             self.exceptions.append(ChEMBLError(activity_info['ingredient_cmpd_chemblid'], 'Activity value cannot be converted to a single number'))
             return False
 
-    def _apply_filters(self, activity_info):
-        if 'All' not in self.filters['units'] and activity_info['units'] not in self.filters['units']:
+    def _check_filter(self, key, activity_info):
+        if self.filters[key] \
+                and 'All' not in self.filters[key] \
+                and activity_info[key] not in self.filters[key]:
             return False
+
+    def _apply_filters(self, activity_info):
+        status = True
+        for key in self.filters:
+            status = self._check_filter(key, activity_info)
+            if not status:
+                return status
 
     def save_data(self):
         target_info = self.target

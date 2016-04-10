@@ -13,6 +13,7 @@ from compound_db.ChEMBLImporter import ChEMBLImporter
 from compound_db.forms import AddMolForm, ImportChEMBLMols
 from rdkit import Chem
 import compound_db.models as models
+from compound_db.utils import parse_filters
 
 JSON_MIME_TYPE = 'application/json'
 
@@ -106,9 +107,12 @@ def add_chembl_mols(req):
                 form.cleaned_data['target']
                 , form.cleaned_data['description']
                 , {
-                    'units' : set(form.cleaned_data['units']) | set(form.cleaned_data['units_custom'].split(','))
+                    'units' : parse_filters(form, 'units')
+                    , 'bioactivity_types' : parse_filters(form, 'bioactivity_types')
                 }
             )
+
+            importer.save_data()
 
             if not importer.fatal_exception:
                 return redirect(reverse('compound_db:home'))
