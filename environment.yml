@@ -77,7 +77,6 @@ dependencies:
   - django==1.9.2
   - django-rdkit==0.0.4
   - easydict==1.6
-  - gevent==1.1.1
   - greenlet==0.4.9
   - grequests==0.2.0
   - ipython-genutils==0.1.0
