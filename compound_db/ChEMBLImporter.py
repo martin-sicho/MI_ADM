@@ -1,12 +1,12 @@
-from django.conf import settings
-from rdkit import Chem
-
 from chembl_webresource_client import CompoundResource
 from chembl_webresource_client import TargetResource
+from django.conf import settings
 from django.db import transaction, IntegrityError
+from rdkit import Chem
 
 from compound_db import models
 from compound_db.utils import is_number
+
 
 class ChEMBLError(Exception):
 
@@ -75,7 +75,7 @@ class ChEMBLImporter:
 
                 activities = self.CHEMBL_TARGETS_RESOURCE.bioactivities(target_info['chemblId'])
                 for idx,activity_info in enumerate(activities):
-                    print('Processing {0}/{1}...'.format(idx, len(activities)))
+                    # print('Processing {0}/{1}...'.format(idx, len(activities)))
 
                     if not self._apply_filters(activity_info):
                         self.filtered_compounds.append(activity_info)
