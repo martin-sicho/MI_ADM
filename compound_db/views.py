@@ -108,7 +108,7 @@ def add_chembl_mols(req):
                 , form.cleaned_data['description']
                 , {
                     'units' : parse_filters(form, 'units')
-                    , 'bioactivity_types' : parse_filters(form, 'bioactivity_types')
+                    , 'bioactivity_type' : parse_filters(form, 'bioactivity_types')
                 }
             )
 

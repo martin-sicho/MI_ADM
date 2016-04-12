@@ -1,3 +1,4 @@
+from django.conf import settings
 from rdkit import Chem
 
 from chembl_webresource_client import CompoundResource
@@ -19,8 +20,8 @@ class ChEMBLImporter:
     # TODO: test if connection OK before attempting retrieval
 
     def __init__(self, target_id, description, filters=None):
-        self.skipped_compounds = set() # TODO: log this in the database for future review
-        self.filtered_compounds = set()
+        self.skipped_compounds = [] # TODO: log this in the database for future review
+        self.filtered_compounds = []
         self.target = self.CHEMBL_TARGETS_RESOURCE.get(target_id)
         self.description = description
         self.is_data_saved = False
@@ -38,22 +39,26 @@ class ChEMBLImporter:
         if 'smiles' not in compound_data:
             self.exceptions.append(ChEMBLError(activity_info['ingredient_cmpd_chemblid'], 'No SMILES found'))
             return False
-        if is_number(activity_info['value']):
+        if not is_number(activity_info['value']):
             self.exceptions.append(ChEMBLError(activity_info['ingredient_cmpd_chemblid'], 'Activity value cannot be converted to a single number'))
             return False
+        return True
 
     def _check_filter(self, key, activity_info):
         if self.filters[key] \
                 and 'All' not in self.filters[key] \
                 and activity_info[key] not in self.filters[key]:
             return False
+        else:
+            return True
 
     def _apply_filters(self, activity_info):
         status = True
         for key in self.filters:
             status = self._check_filter(key, activity_info)
             if not status:
-                return status
+                break
+        return status
 
     def save_data(self):
         target_info = self.target
@@ -73,12 +78,12 @@ class ChEMBLImporter:
                     print('Processing {0}/{1}...'.format(idx, len(activities)))
 
                     if not self._apply_filters(activity_info):
-                        self.filtered_compounds.add(activity_info)
+                        self.filtered_compounds.append(activity_info)
                         continue
 
                     compound_data = self.CHEMBL_COMPOUNDS_RESOURCE.get(activity_info['ingredient_cmpd_chemblid'])
                     if not self._check_response(compound_data, activity_info):
-                        self.skipped_compounds.add(compound_data)
+                        self.skipped_compounds.append(compound_data)
                         continue
 
                     mol = Chem.MolFromSmiles(compound_data['smiles'])
@@ -92,7 +97,7 @@ class ChEMBLImporter:
                             compound = models.Compound.objects.get(inchi_key=compound.inchi_key)
                         except IntegrityError as ierr:
                             self.exceptions.append(ierr)
-                            self.skipped_compounds.add(compound_data) # FIXME: this results in a loss of activity data if an enantiomer is already in the database
+                            self.skipped_compounds.append(compound_data) # FIXME: this results in a loss of activity data if an enantiomer is already in the database
                             continue
 
                         bioassay_data = models.ChEMBLBioassayData(
@@ -110,8 +115,11 @@ class ChEMBLImporter:
                         bioassay_data.save()
                     else:
                         self.exceptions.append(Exception('Creating an RDKit molecule failed -- {0}'.format(activity_info['ingredient_cmpd_chemblid'])))
-                        self.skipped_compounds.add(compound_data)
+                        self.skipped_compounds.append(compound_data)
         except IntegrityError as ierr:
             self.fatal_exception = ierr
         except Exception as exp:
-            self.fatal_exception = exp
+            if settings.DEBUG:
+                raise exp
+            else:
+                self.fatal_exception = exp
