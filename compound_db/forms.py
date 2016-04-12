@@ -74,6 +74,22 @@ class ImportChEMBLMols(forms.Form):
         , label='Custom Bioactivity Types'
     )
 
+    operators = forms.MultipleChoiceField(
+        widget=forms.SelectMultiple
+        , required=False
+        , choices=load_filter_choices(os.path.join(settings.BASE_DIR, 'compound_db/operator_types.txt'))
+    )
+
+    operators_custom = forms.CharField(
+        required=False
+        , widget=forms.TextInput(
+            attrs={
+                'placeholder' : 'Other operators to include in the final set (comma seperated).'
+            }
+        )
+        , label='Custom Operators'
+    )
+
     def clean(self):
         cleaned_data = super(ImportChEMBLMols, self).clean()
         if 'target' in cleaned_data:

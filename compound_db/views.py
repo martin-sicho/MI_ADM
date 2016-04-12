@@ -109,6 +109,7 @@ def add_chembl_mols(req):
                 , {
                     'units' : parse_filters(form, 'units')
                     , 'bioactivity_type' : parse_filters(form, 'bioactivity_types')
+                    , 'operator' : parse_filters(form, 'operators')
                 }
             )
 
