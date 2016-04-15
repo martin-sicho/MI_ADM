@@ -32,6 +32,7 @@ class ImportChEMBLMols(forms.Form):
             }
         )
     )
+
     description = forms.CharField(
         widget = forms.Textarea(
             attrs={
@@ -47,7 +48,6 @@ class ImportChEMBLMols(forms.Form):
         , required=False
         , choices=load_filter_choices(os.path.join(settings.BASE_DIR, 'compound_db/units.txt'))
     )
-
     units_custom = forms.CharField(
         required=False
         , widget=forms.TextInput(
@@ -63,7 +63,6 @@ class ImportChEMBLMols(forms.Form):
         , required=False
         , choices=load_filter_choices(os.path.join(settings.BASE_DIR, 'compound_db/bioactivity_types.txt'))
     )
-
     bioactivity_types_custom = forms.CharField(
         required=False
         , widget=forms.TextInput(
@@ -79,7 +78,6 @@ class ImportChEMBLMols(forms.Form):
         , required=False
         , choices=load_filter_choices(os.path.join(settings.BASE_DIR, 'compound_db/operator_types.txt'))
     )
-
     operators_custom = forms.CharField(
         required=False
         , widget=forms.TextInput(
@@ -88,6 +86,25 @@ class ImportChEMBLMols(forms.Form):
             }
         )
         , label='Custom Operators'
+    )
+
+    activity_value_threshold = forms.FloatField(
+        required=False
+        , label="Value"
+        , widget=forms.TextInput(
+            attrs={
+                'placeholder' : 'Any number'
+            }
+        )
+    )
+    activity_value_operator = forms.ChoiceField(
+        choices=load_filter_choices(
+            os.path.join(settings.BASE_DIR, 'compound_db/threshold_operators.txt')
+            , prepend=None
+        )
+        , widget=forms.RadioSelect()
+        , label="Operator"
+        , initial="<="
     )
 
     def clean(self):

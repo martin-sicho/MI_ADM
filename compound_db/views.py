@@ -1,18 +1,18 @@
 import json
-
 import pickle
+
 from django.contrib import messages
 from django.core import serializers
 from django.core.urlresolvers import resolve, reverse
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
+from rdkit import Chem
 from rdkit.Chem import Draw
 
+import compound_db.models as models
 from compound_db.ChEMBLImporter import ChEMBLImporter
 from compound_db.forms import AddMolForm, ImportChEMBLMols
-from rdkit import Chem
-import compound_db.models as models
 from compound_db.utils import parse_filters
 
 JSON_MIME_TYPE = 'application/json'
@@ -110,6 +110,7 @@ def add_chembl_mols(req):
                     'units' : parse_filters(form, 'units')
                     , 'bioactivity_type' : parse_filters(form, 'bioactivity_types')
                     , 'operator' : parse_filters(form, 'operators')
+                    , 'value' : (form.cleaned_data['activity_value_threshold'], form.cleaned_data['activity_value_operator'])
                 }
             )
 

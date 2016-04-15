@@ -7,8 +7,9 @@ def is_number(s):
         return False
 
 def load_filter_choices(file, prepend=('All', 'All')):
-    ret = []
-    ret.append(prepend)
+    ret = list()
+    if prepend:
+        ret.append(prepend)
     with open(file, 'r', encoding='utf-8') as infile:
         for line in infile:
             line = line.strip().strip("\"")

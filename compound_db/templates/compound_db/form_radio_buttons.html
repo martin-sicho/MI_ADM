@@ -1,0 +1,24 @@
+<div class="row" xmlns="http://www.w3.org/1999/html">
+    <div class="radio-buttons col s12">
+        <div class="row">
+            <div class="col s8">
+                {% for radio in field %}
+                    <p>
+                        {{ radio.tag }}
+                        <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                    </p>
+                {% endfor %}
+            </div>
+
+            {% if field.errors %}
+                <div class="col s4">
+                    <ul class="collection">
+                        {% for error in field.errors %}
+                            <li class="collection-item teal lighten-2"><strong>{{ error|escape }}</strong></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

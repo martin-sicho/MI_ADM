@@ -19,6 +19,14 @@ class ChEMBLImporter:
     CHEMBL_COMPOUNDS_RESOURCE = CompoundResource()
     # TODO: test if connection OK before attempting retrieval
 
+    VALUE_OPERATORS_MAP = {
+        '=' : lambda thrs, val : val == thrs
+        , '>=' : lambda thrs, val : val >= thrs
+        , '>' : lambda thrs, val : val > thrs
+        , '<=' : lambda thrs, val : val <= thrs
+        , '<' : lambda thrs, val : val < thrs
+    }
+
     def __init__(self, target_id, description, filters=None):
         self.skipped_compounds = [] # TODO: log this in the database for future review
         self.filtered_compounds = []
@@ -55,7 +63,14 @@ class ChEMBLImporter:
     def _apply_filters(self, activity_info):
         status = True
         for key in self.filters:
-            status = self._check_filter(key, activity_info)
+            if key == 'value' and self.filters[key][0]:
+                thrs = self.filters[key][0]
+                oper = self.filters[key][1]
+                activity_value = float(activity_info[key]) if is_number(activity_info[key]) else None
+                if activity_value:
+                    status = self.VALUE_OPERATORS_MAP[oper](thrs, activity_value)
+            else:
+                status = self._check_filter(key, activity_info)
             if not status:
                 break
         return status
