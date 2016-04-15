@@ -31,7 +31,7 @@
 
         {% block base_nav %}
 
-            {% include "compound_db/nav.html" with active=page_settings.navbar_active active_title=page_settings.active_title %}
+            {% include "compound_db/nav.html" %}
 
         {% endblock %}
 
@@ -42,7 +42,7 @@
         <div class="spacer"></div>
 
         {% block page_footer %}
-            <footer class="page-footer">
+            <footer class="page-footer {{ page_settings.colors.footer }}">
 
 {#                <div class="container">#}
 {#                    <div class="row">#}

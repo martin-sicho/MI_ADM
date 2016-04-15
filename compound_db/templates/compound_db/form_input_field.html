@@ -7,15 +7,8 @@
             <label for="{{ field.id_for_label }}">{{ field.label }}</label>
         </div>
 
-        {% if field.errors %}
-            <div class="col s4">
-                <ul class="collection">
-                    {% for error in field.errors %}
-                        <li class="collection-item  teal lighten-2"><strong>{{ error|escape }}</strong></li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
+        {% include "compound_db/field_errors.html" %}
+
     </div>
 </div>
 </div>

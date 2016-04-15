@@ -24,13 +24,13 @@
 
             <div class=".search-buttons-wrapper row">
                 <div class="col s6">
-                    <button id="btn-search" class="btn waves-effect waves-light right" type="submit" name="search">
+                    <button id="btn-search" class="btn waves-effect waves-light right {{ page_settings.colors.buttons }}" type="submit" name="search">
                         <i class="material-icons right">search</i>Search
                     </button>
                 </div>
 
                 <div class="col s6">
-                    <button id="btn-advanced-search" class="btn waves-effect waves-light left" name="advanced-search" onclick="alert('not implemented')">Advanced Search
+                    <button id="btn-advanced-search" class="btn waves-effect waves-light left {{ page_settings.colors.buttons }}" name="advanced-search" onclick="alert('not implemented')">Advanced Search
                     </button>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                     </table>
 
                     <div class="row">
-                        <button id="btn-more" class="hide col s4 offset-s4 btn waves-effect waves-light" name="more">
+                        <button id="btn-more" class="hide col s4 offset-s4 btn waves-effect waves-light {{ page_settings.colors.buttons }}" name="more">
                             Load More
                         </button>
                     </div>
