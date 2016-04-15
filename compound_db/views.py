@@ -35,18 +35,22 @@ def autocomplete_api(req):
 
 def search_api(req):
     if req.method == 'POST' and req.is_ajax():
-        data = json.dumps(req.POST)
         if 'basic_query' in req.POST:
-            compounds = search_for_term(req.POST.get('basic_query'))
+            compounds = search_for_term(req.POST.get('basic_query'), offset=int(req.POST.get('offset')))
             data = json.loads(serializers.serialize("json", compounds))
             for item in data:
                 del item['model']
             ret = dict()
             ret['data'] = data
-            ret['html'] = render_to_string("compound_db/compound_table.html", request=req, context={
-                'compounds' : compounds
-                , 'column_names' : ['ID', 'SMILES', 'Weight', 'Image']
+
+            ret['table_head'] = render_to_string("compound_db/compound_table_head.html", request=req, context={
+                'column_names' : ['ID', 'SMILES', 'Weight', 'Image']
             })
+
+            ret['table_rows'] = render_to_string("compound_db/compound_table.html", request=req, context={
+                'compounds' : compounds
+            })
+
             return HttpResponse(json.dumps(ret), JSON_MIME_TYPE)
         else:
             return Http404('wrong query')

@@ -29,19 +29,21 @@ def parse_filters(form, filter_key):
     filter_options.remove('')
     return filter_options
 
-def search_for_term(term):
+def search_for_term(term, offset=0, max_items=10):
     queries = [
-        lambda : models.Compound.objects.filter(unique_id__icontains = term)[:5]
-        , lambda : models.Compound.objects.filter(inchi__icontains = term)[:5]
-        , lambda : models.Compound.objects.filter(inchi_key__icontains = term)[:5]
-        , lambda : models.Compound.objects.filter(mol__hassubstruct = term)[:5]
+        lambda : models.Compound.objects.filter(unique_id__icontains = term)
+        , lambda : models.Compound.objects.filter(inchi__icontains = term)
+        , lambda : models.Compound.objects.filter(inchi_key__icontains = term)
+        , lambda : models.Compound.objects.filter(mol__hassubstruct = term)
     ]
 
     ret = list()
     for query in queries:
-        if len(ret) <= 10:
+        if len(ret) <= max_items:
             try:
-                ret.extend(query())
+                compounds = query()
+                if offset < len(compounds):
+                    ret.extend(compounds[offset:offset+max_items])
             except DataError as err:
                 if settings.DEBUG:
                     try:
@@ -53,4 +55,5 @@ def search_for_term(term):
                     pass
         else:
             break
-    return ret
+
+    return ret[:max_items]

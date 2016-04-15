@@ -24,8 +24,8 @@
 
             <div class=".search-buttons-wrapper row">
                 <div class="col s6">
-                    <button id="btn-search" class="btn waves-effect waves-light right" type="submit" name="search">Search
-                        <i class="material-icons right">search</i>
+                    <button id="btn-search" class="btn waves-effect waves-light right" type="submit" name="search">
+                        <i class="material-icons right">search</i>Search
                     </button>
                 </div>
 
@@ -37,7 +37,21 @@
 
             <div class="row">
                 <div class="search-results col s12">
-                    {#                results go here#}
+                    <table>
+                        <thead>
+                            {# head goes here #}
+                        </thead>
+
+                        <tbody>
+                            {# results go here #}
+                        </tbody>
+                    </table>
+
+                    <div class="row">
+                        <button id="btn-more" class="hide col s4 offset-s4 btn waves-effect waves-light" name="more">
+                            Load More
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -55,9 +69,17 @@
             initAutocomplete("{% url "compound_db:autocomplete_api" %}")
         });
 
-        var fetchData = function() {
+        var OFFSET = 0;
+
+        var fetchData = function(reset) {
             var form = $('#basic-search-form');
             var data = form.serialize();
+            var options = {
+                offset : OFFSET
+            };
+            var options_str = jQuery.param( options );
+
+            data = data + '&' + options_str;
             var url = form.attr('action');
             $.ajax({
                 url: url,
@@ -65,22 +87,54 @@
                 dataType: 'json',
                 data: data,
                 success: function(data) {
-                    var results_wrapper = $('.search-results');
-                    results_wrapper.empty();
-                    results_wrapper.append(data['html'])
+                    if (reset) {
+                        var table_head = $('.search-results thead');
+                        table_head.empty();
+                        table_head.append(data['table_head']);
+
+                        var table_rows = $('.search-results tbody');
+                        table_rows.empty();
+                        table_rows.append(data['table_rows']);
+
+                        OFFSET = 10;
+                    } else {
+                        var table_rows = $('.search-results tbody');
+                        table_rows.append(data['table_rows']);
+                        OFFSET = OFFSET + 10;
+                    }
+
+                    var old = $('.last-row');
+                    if (old) {
+                        old.removeClass('last-row');
+                    }
+
+                    var last = $('.search-results tbody tr').last();
+                    last.addClass('last-row');
+
+                    if (!data['data'].length) {
+                        $('#btn-more').html('No more compounds to show.');
+                        $('#btn-more').addClass('disabled');
+                    } else {
+                        $('#btn-more').removeClass('hide');
+                    }
                 }
             });
         };
 
+        $('#btn-more').click(function() {
+            fetchData(false);
+        });
+
         $('#btn-search').click(function() {
-            fetchData();
+            fetchData(true);
             $('.messages').remove();
         });
 
         $('#basic-search-form').submit(function(e) {
-            fetchData();
+            fetchData(true);
             e.preventDefault();
             $('.messages').remove();
         });
+
     </script>
 {% endblock %}
