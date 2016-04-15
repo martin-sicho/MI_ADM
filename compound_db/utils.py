@@ -1,3 +1,10 @@
+import traceback
+
+from django.db import DataError
+
+from MI_ADM import settings
+from compound_db import models
+
 
 def is_number(s):
     try:
@@ -21,3 +28,29 @@ def parse_filters(form, filter_key):
     filter_options = set(form.cleaned_data[filter_key]) | set(form.cleaned_data[filter_key + '_custom'].split(','))
     filter_options.remove('')
     return filter_options
+
+def search_for_term(term):
+    queries = [
+        lambda : models.Compound.objects.filter(unique_id__icontains = term)[:5]
+        , lambda : models.Compound.objects.filter(inchi__icontains = term)[:5]
+        , lambda : models.Compound.objects.filter(inchi_key__icontains = term)[:5]
+        , lambda : models.Compound.objects.filter(mol__hassubstruct = term)[:5]
+    ]
+
+    ret = list()
+    for query in queries:
+        if len(ret) <= 10:
+            try:
+                ret.extend(query())
+            except DataError as err:
+                if settings.DEBUG:
+                    try:
+                        raise err
+                    except DataError:
+                        pass
+                    traceback.print_exc()
+                else:
+                    pass
+        else:
+            break
+    return ret

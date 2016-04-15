@@ -2,11 +2,7 @@
     margin-top: 5%;
 }
 
-.ui-widget-content {
-    border: none;
-    background: none;
-}
-
 .ui-autocomplete {
     position: absolute;
+    z-index: 999999;
 }

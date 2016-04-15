@@ -19,6 +19,10 @@ class Compound(models.Model):
     ring_count = models.IntegerField(blank=False)
     mol = models.MolField()
 
+    torsionbv = models.BfpField(null=True)
+    mfp2 = models.BfpField(null=True)
+    ffp2 = models.BfpField(null=True)
+
     class MoleculeAlreadyExists(Exception):
         pass
 

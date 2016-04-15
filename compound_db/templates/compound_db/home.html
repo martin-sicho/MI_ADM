@@ -35,8 +35,10 @@
                 </div>
             </div>
 
-            <div class="search-results">
-
+            <div class="row">
+                <div class="search-results col s12">
+                    {#                results go here#}
+                </div>
             </div>
         </div>
 
@@ -78,6 +80,7 @@
         $('#basic-search-form').submit(function(e) {
             fetchData();
             e.preventDefault();
+            $('.messages').remove();
         });
     </script>
 {% endblock %}

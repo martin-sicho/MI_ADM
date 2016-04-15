@@ -13,19 +13,19 @@ from rdkit.Chem import Draw
 import compound_db.models as models
 from compound_db.ChEMBLImporter import ChEMBLImporter
 from compound_db.forms import AddMolForm, ImportChEMBLMols
-from compound_db.utils import parse_filters
+from compound_db.utils import parse_filters, search_for_term
 
 JSON_MIME_TYPE = 'application/json'
 
 def autocomplete_api(req):
     if req.is_ajax():
         q = req.GET.get('term', '')
-        compounds = models.Compound.objects.filter(unique_id__icontains = q)[:5]
+        compounds = search_for_term(q)
         results = []
         for idx, compound in enumerate(compounds):
             drug_json = dict()
             drug_json['id'] = compound.unique_id
-            drug_json['label'] = compound.unique_id
+            drug_json['label'] = compound.smiles
             drug_json['value'] = compound.unique_id
             results.append(drug_json)
         data = json.dumps(results)
@@ -37,7 +37,7 @@ def search_api(req):
     if req.method == 'POST' and req.is_ajax():
         data = json.dumps(req.POST)
         if 'basic_query' in req.POST:
-            compounds = models.Compound.objects.filter(unique_id__icontains = req.POST.get('basic_query'))[:10]
+            compounds = search_for_term(req.POST.get('basic_query'))
             data = json.loads(serializers.serialize("json", compounds))
             for item in data:
                 del item['model']
