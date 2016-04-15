@@ -2,6 +2,7 @@ from chembl_webresource_client import CompoundResource
 from chembl_webresource_client import TargetResource
 from django.conf import settings
 from django.db import transaction, IntegrityError
+from django.utils import timezone
 from rdkit import Chem
 
 from compound_db import models
@@ -103,7 +104,7 @@ class ChEMBLImporter:
 
                     mol = Chem.MolFromSmiles(compound_data['smiles'])
                     if mol:
-                        compound = models.Compound(mol, '')
+                        compound = models.Compound(mol, 'Imported from ChEMBL on {0}'.format(timezone.now()))
                         try:
                             with transaction.atomic():
                                 compound.save()

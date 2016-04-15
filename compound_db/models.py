@@ -1,8 +1,12 @@
 import hashlib
 from datetime import datetime
+
+from django.core.urlresolvers import reverse
+from django.utils.html import escape
 from django_rdkit import models
 from rdkit import Chem
 from rdkit.Chem import Descriptors, Lipinski
+
 
 class Compound(models.Model):
     unique_id = models.CharField(max_length=13, unique=True, blank=False)
@@ -80,6 +84,13 @@ class ChEMBLTargetData(models.Model):
         kwargs['unique_id'] = self._generate_id()
         super(ChEMBLTargetData, self).__init__(*args, **kwargs)
 
+    def __str__(self):
+        return self.unique_id
+
+    class Meta:
+        verbose_name = 'ChEMBL Target Data'
+        verbose_name_plural = verbose_name
+
 class ChEMBLBioassayData(models.Model):
 
     compound = models.ForeignKey(Compound, null=False)
@@ -92,3 +103,17 @@ class ChEMBLBioassayData(models.Model):
     operator = models.CharField(max_length=32, blank=True)
     activity_comment = models.CharField(max_length=64, blank=True)
     target_confidence = models.IntegerField(null=True)
+
+    class Meta:
+        verbose_name = 'ChEMBL Bioassay Data'
+        verbose_name_plural = verbose_name
+
+    def compound_link(self):
+      return '<a href="%s">%s</a>' % (reverse("admin:compound_db_compound_change", args=(self.compound.pk,)) , escape(self.compound))
+    compound_link.allow_tags = True
+    compound_link.short_description = 'Compound'
+
+    def target_data_link(self):
+      return '<a href="%s">%s</a>' % (reverse("admin:compound_db_chembltargetdata_change", args=(self.target_data.pk,)) , escape(self.target_data))
+    target_data_link.allow_tags = True
+    target_data_link.short_description = 'Target Data'
