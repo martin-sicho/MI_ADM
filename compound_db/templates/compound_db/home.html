@@ -99,6 +99,7 @@
                         OFFSET = 10;
                     } else {
                         var table_rows = $('.search-results tbody');
+                        table_rows.append('<div class="divider"></div>');
                         table_rows.append(data['table_rows']);
                         OFFSET = OFFSET + 10;
                     }
