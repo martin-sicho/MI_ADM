@@ -126,6 +126,7 @@ def add_chembl_mols(req):
                     , 'bioactivity_type' : parse_filters(form, 'bioactivity_types')
                     , 'operator' : parse_filters(form, 'operators')
                     , 'value' : (form.cleaned_data['activity_value_threshold'], form.cleaned_data['activity_value_operator'])
+                    , 'activity_comment' : set(form.cleaned_data['activity_comments'].split(','))
                 }
             )
 

@@ -26,7 +26,7 @@ def load_filter_choices(file, prepend=('All', 'All')):
 
 def parse_filters(form, filter_key):
     filter_options = set(form.cleaned_data[filter_key]) | set(form.cleaned_data[filter_key + '_custom'].split(','))
-    filter_options.remove('')
+    filter_options.discard('')
     return filter_options
 
 def search_for_term(term, offset=0, max_items=10):

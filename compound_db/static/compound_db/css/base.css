@@ -14,3 +14,7 @@ footer {
 .spacer {
 	height: 100px;
 }
+
+.side-nav .collapsible-body li.active, .side-nav.fixed .collapsible-body li.active {
+	background-color: #303f9f;
+}

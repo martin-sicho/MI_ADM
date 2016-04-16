@@ -63,6 +63,7 @@ class ChEMBLImporter:
 
     def _apply_filters(self, activity_info):
         status = True
+        special = {'value', 'activity_comment'}
         for key in self.filters:
             if key == 'value' and self.filters[key][0]:
                 thrs = self.filters[key][0]
@@ -70,7 +71,12 @@ class ChEMBLImporter:
                 activity_value = float(activity_info[key]) if is_number(activity_info[key]) else None
                 if activity_value:
                     status = self.VALUE_OPERATORS_MAP[oper](thrs, activity_value)
-            else:
+            elif key == 'activity_comment':
+                self.filters[key].discard('')
+                comment = activity_info[key].strip()
+                if comment not in self.filters[key]:
+                    status = False
+            elif key not in special:
                 status = self._check_filter(key, activity_info)
             if not status:
                 break

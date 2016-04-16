@@ -107,6 +107,16 @@ class ImportChEMBLMols(forms.Form):
         , initial="<="
     )
 
+    activity_comments = forms.CharField(
+        required=False
+        , widget=forms.TextInput(
+            attrs={
+                'placeholder' : 'Desired activity comments (comma seperated).'
+            }
+        )
+        , label='Activity Comment'
+    )
+
     def clean(self):
         cleaned_data = super(ImportChEMBLMols, self).clean()
         if 'target' in cleaned_data:

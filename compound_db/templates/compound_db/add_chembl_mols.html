@@ -52,7 +52,7 @@
 
                 {% include "compound_db/form_input_field.html" with field=form.operators_custom %}
 
-                <h5>Activity Values</h5>
+                <h5>Activity Value Threshold</h5>
 
                 <p>Select compounds that have bioactivity value above or below a certain threshold.</p>
 
@@ -75,6 +75,12 @@
                 </p>
 
                 {% include "compound_db/form_radio_buttons.html" with field=form.activity_value_operator %}
+
+                <h5>Activity Comments</h5>
+
+                <p>Select only compounds with the given activity comments.</p>
+
+                {% include "compound_db/form_input_field.html" with field=form.activity_comments %}
 
                 <button id="btn-save" class="submit-form-with-mol btn waves-effect waves-light {{ page_settings.colors.buttons }}" type="submit" name="action">Submit
                     <i class="material-icons right">send</i>
