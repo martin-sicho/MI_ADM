@@ -47,7 +47,7 @@ class Compound(models.Model):
             description = kwargs['description'] if 'description' in kwargs else ''
         new_kwargs = dict()
         new_kwargs['unique_id'] = self._generate_id()
-        new_kwargs['smiles'] = Chem.MolToSmiles(mol_as_RDmol)
+        new_kwargs['smiles'] = Chem.MolToSmiles(mol_as_RDmol, isomericSmiles=True, canonical=True)
         new_kwargs['inchi'] = Chem.MolToInchi(mol_as_RDmol)
         new_kwargs['inchi_key'] = Chem.InchiToInchiKey(new_kwargs['inchi'])
         new_kwargs['mol_weight_exact'] = Descriptors.ExactMolWt(mol_as_RDmol)
