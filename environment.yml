@@ -58,10 +58,11 @@ dependencies:
 - readline=6.2=2
 - scikit-learn=0.17.1=np110py35_0
 - scipy=0.17.0=np110py35_1
-- setuptools=20.6.7=py35_0
+- setuptools=20.7.0=py35_0
 - simplegeneric=0.8.1=py35_0
 - sip=4.16.9=py35_0
 - six=1.10.0=py35_0
+- sqlalchemy=1.0.12=py35_0
 - sqlite=3.9.2=0
 - terminado=0.5=py35_1
 - tk=8.5.18=0
