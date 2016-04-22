@@ -2,6 +2,7 @@
 /*.sqlite
 /*.sqlite3
 /.idea/
+/.ipynb_checkpoints/
 *.pyc
 
 # Vagrant stuff
