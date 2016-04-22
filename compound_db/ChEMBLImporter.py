@@ -74,7 +74,7 @@ class ChEMBLImporter:
             elif key == 'activity_comment':
                 self.filters[key].discard('')
                 comment = activity_info[key].strip()
-                if comment not in self.filters[key]:
+                if self.filters[key] and comment not in self.filters[key]:
                     status = False
             elif key not in special:
                 status = self._check_filter(key, activity_info)
