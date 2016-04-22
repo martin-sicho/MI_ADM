@@ -1,5 +1,5 @@
 
-DATABASE = {
+DATABASE = { # only postgresql supported so far
     'NAME': 'MI_ADM',
     'USER': 'MI_ADM',
     'PASSWORD': 'MI_ADM',
@@ -9,6 +9,35 @@ DATABASE = {
 }
 
 TABLE_PREFIX = 'compound_db_'
+
 COMPOUNDS_TABLE = TABLE_PREFIX + 'compound'
-DATASETS_TABLE = TABLE_PREFIX + 'chemblbioassaydata'
-BIOACTIVITIES_TABLE = TABLE_PREFIX + 'chembltargetdata'
+COMPOUNDS_TABLE_COLS = [
+    'id'
+    , 'unique_id'
+    , 'smiles'
+]
+
+DATASETS_TABLE = TABLE_PREFIX + 'chembltargetdata'
+DATASETS_TABLE_COLS = [
+    'id'
+    , 'unique_id'
+    , 'chembl_id'
+    , 'organism'
+    , 'preffered_name'
+    , 'description'
+]
+
+BIOACTIVITIES_TABLE = TABLE_PREFIX + 'chemblbioassaydata'
+BIOACTIVITIES_TABLE_COLS = [
+    'id'
+    , 'compound_id'
+    , 'target_data_id'
+    , 'assay_id'
+    , 'ingredient_cmpd_id'
+    , 'units'
+    , 'bioactivity_type'
+    , 'value'
+    , 'operator'
+    , 'activity_comment'
+    , 'target_confidence'
+]
