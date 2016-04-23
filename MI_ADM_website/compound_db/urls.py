@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from compound_db.views import home, add_mol, autocomplete_api, search_api, molimages_api, add_chembl_mols
+from MI_ADM_website.compound_db.views import home, add_mol, autocomplete_api, search_api, molimages_api, add_chembl_mols
 
 app_name = 'compound_db'
 urlpatterns = [

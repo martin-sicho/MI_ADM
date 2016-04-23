@@ -1,12 +1,12 @@
 from chembl_webresource_client import CompoundResource
 from chembl_webresource_client import TargetResource
+from compound_db import models
 from django.conf import settings
 from django.db import transaction, IntegrityError
 from django.utils import timezone
 from rdkit import Chem
 
-from compound_db import models
-from compound_db.utils import is_number
+from MI_ADM_website.compound_db.utils import is_number
 
 
 class ChEMBLError(Exception):
