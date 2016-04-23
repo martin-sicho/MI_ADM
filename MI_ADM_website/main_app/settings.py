@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import socket
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -24,6 +25,14 @@ SECRET_KEY = 'r-q^cng$(#ibl#s#tizyc-2d_#_e%$x4^l)igfmh1db%zp1-f!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+try:
+    HOSTNAME = socket.gethostname()
+except:
+    HOSTNAME = 'localhost'
+
+# determine if we run on the deployement server or not
+DEPLOYED = True if HOSTNAME in ['cloud4b.cerit-sc.cz'] else False
 
 ALLOWED_HOSTS = []
 
@@ -77,16 +86,28 @@ WSGI_APPLICATION = 'main_app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'MI_ADM',
-        'USER': 'MI_ADM',
-        'PASSWORD': 'MI_ADM',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+if DEPLOYED:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'MI_ADM',
+            'USER': 'MI_ADM',
+            'PASSWORD': 'MI_ADM',
+            'HOST': HOSTNAME,
+            'PORT': '5555',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'MI_ADM',
+            'USER': 'MI_ADM',
+            'PASSWORD': 'MI_ADM',
+            'HOST': '127.0.0.1',
+            'PORT': '5432',
+        }
+    }
 
 
 # Internationalization
