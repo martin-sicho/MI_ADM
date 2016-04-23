@@ -92,7 +92,7 @@ if DEPLOYED:
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'MI_ADM',
             'USER': 'MI_ADM',
-            'PASSWORD': os.path.join(BASE_DIR, 'db.pass'),
+            'PASSWORD': open(os.path.join(BASE_DIR, 'db.pass'), 'r').read().strip(),
             'HOST': HOSTNAME,
             'PORT': '5555',
         }
@@ -103,7 +103,7 @@ else:
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'MI_ADM',
             'USER': 'MI_ADM',
-            'PASSWORD': os.path.join(BASE_DIR, 'db.pass'),
+            'PASSWORD': open(os.path.join(BASE_DIR, 'db.pass'), 'r').read().strip(),
             'HOST': '127.0.0.1',
             'PORT': '5432',
         }
