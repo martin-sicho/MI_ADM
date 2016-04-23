@@ -1,8 +1,14 @@
 
 <tr>
     {% for title in column_names %}
-        <th>
-            {{ title }}
-        </th>
+        {% if title == 'SMILES' %}
+            <th class="hide-on-small-only">
+                {{ title }}
+            </th>
+        {% else %}
+            <th>
+                {{ title }}
+            </th>
+        {% endif %}
     {% endfor %}
 </tr>

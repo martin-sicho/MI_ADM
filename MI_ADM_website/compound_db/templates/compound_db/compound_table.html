@@ -2,7 +2,7 @@
 {% for compound in compounds %}
     <tr>
         <td>{{ compound.unique_id }}</td>
-        <td>{{ compound.smiles }}</td>
+        <td class="hide-on-small-only">{{ compound.smiles|truncatechars:40 }}</td>
         <td>{{ compound.mol_weight_exact }}</td>
         <td><img src="{%  url "compound_db:molimages_api" compound.unique_id %}"></td>
     </tr>
