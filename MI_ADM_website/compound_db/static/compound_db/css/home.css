@@ -10,3 +10,7 @@
 .btn-more {
     width: 100%;
 }
+
+.ui-helper-hidden-accessible {
+    display: none;
+}
