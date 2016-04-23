@@ -4,7 +4,7 @@ from chembl_webresource_client import TargetResource
 from django import forms
 from django.conf import settings
 
-from MI_ADM_website.compound_db.utils import load_filter_choices
+from compound_db.utils import load_filter_choices
 
 
 class AddMolForm(forms.Form):

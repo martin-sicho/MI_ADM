@@ -6,7 +6,7 @@ from django.db import transaction, IntegrityError
 from django.utils import timezone
 from rdkit import Chem
 
-from MI_ADM_website.compound_db.utils import is_number
+from compound_db.utils import is_number
 
 
 class ChEMBLError(Exception):

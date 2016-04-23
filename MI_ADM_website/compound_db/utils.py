@@ -3,7 +3,7 @@ import traceback
 from compound_db import models
 from django.db import DataError
 
-from MI_ADM_website.MI_ADM import settings
+from main_app import settings
 
 
 def is_number(s):

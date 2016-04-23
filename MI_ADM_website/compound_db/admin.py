@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from MI_ADM_website.compound_db.models import Compound, ChEMBLTargetData, ChEMBLBioassayData
+from .models import Compound, ChEMBLTargetData, ChEMBLBioassayData
 
 @admin.register(Compound)
 class CompundAdmin(admin.ModelAdmin):

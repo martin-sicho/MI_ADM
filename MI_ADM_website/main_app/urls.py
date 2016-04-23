@@ -16,9 +16,9 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
-import MI_ADM_website.compound_db.urls
+import compound_db.urls
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^', include(MI_ADM_website.compound_db.urls))
+    url(r'^', include(compound_db.urls))
 ]

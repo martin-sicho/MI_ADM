@@ -13,7 +13,7 @@ from django.template.loader import render_to_string
 from rdkit import Chem
 from rdkit.Chem import Draw
 
-from MI_ADM_website.compound_db.utils import parse_filters, search_for_term
+from compound_db.utils import parse_filters, search_for_term
 
 JSON_MIME_TYPE = 'application/json'
 
