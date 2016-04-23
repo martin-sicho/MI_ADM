@@ -32,7 +32,7 @@ except:
     HOSTNAME = 'localhost'
 
 # determine if we run on the deployement server or not
-DEPLOYED = True if HOSTNAME in ['cloud4b.cerit-sc.cz'] else False
+DEPLOYED = True if HOSTNAME in ['cloud4b'] else False
 
 ALLOWED_HOSTS = []
 
