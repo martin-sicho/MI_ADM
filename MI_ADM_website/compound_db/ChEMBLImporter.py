@@ -1,11 +1,11 @@
 from chembl_webresource_client import CompoundResource
 from chembl_webresource_client import TargetResource
-from compound_db import models
 from django.conf import settings
 from django.db import transaction, IntegrityError
 from django.utils import timezone
 from rdkit import Chem
 
+from compound_db import models
 from compound_db.utils import is_number
 
 
@@ -34,6 +34,7 @@ class ChEMBLImporter:
         self.target = self.CHEMBL_TARGETS_RESOURCE.get(target_id)
         self.description = description
         self.is_data_saved = False
+        self.saved_data = None
         self.exceptions = []
         self.fatal_exception = None
         self.filters = filters
@@ -94,6 +95,7 @@ class ChEMBLImporter:
                     , description=self.description
                 )
                 target_data.save()
+                self.saved_data = target_data
 
                 activities = self.CHEMBL_TARGETS_RESOURCE.bioactivities(target_info['chemblId'])
                 for idx,activity_info in enumerate(activities):

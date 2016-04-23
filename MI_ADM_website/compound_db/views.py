@@ -1,9 +1,6 @@
 import json
 import pickle
 
-import compound_db.models as models
-from compound_db.ChEMBLImporter import ChEMBLImporter
-from compound_db.forms import AddMolForm, ImportChEMBLMols
 from django.contrib import messages
 from django.core import serializers
 from django.core.urlresolvers import resolve, reverse
@@ -13,6 +10,9 @@ from django.template.loader import render_to_string
 from rdkit import Chem
 from rdkit.Chem import Draw
 
+import compound_db.models as models
+from compound_db.ChEMBLImporter import ChEMBLImporter
+from compound_db.forms import AddMolForm, ImportChEMBLMols
 from compound_db.utils import parse_filters, search_for_term
 
 JSON_MIME_TYPE = 'application/json'
@@ -133,6 +133,7 @@ def add_chembl_mols(req):
             importer.save_data()
 
             if not importer.fatal_exception:
+                messages.success(req, 'Dataset imported successfully. ID = {0}'.format(importer.saved_data))
                 return redirect(reverse('compound_db:home'))
             else:
                 pickle.dump(importer, open('failed_import.pickle', 'wb'))
