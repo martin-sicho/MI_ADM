@@ -14,3 +14,7 @@
 .ui-helper-hidden-accessible {
     display: none;
 }
+
+.autocomplete-search-wrapper .ui-state-focus {
+    background-color: #e3f2fd;
+}
