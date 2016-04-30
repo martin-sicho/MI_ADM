@@ -1,5 +1,7 @@
-<nav class="{{ page_settings.colors.navbar }}">
-    <a href="#" class="brand-logo">{{ page_settings.active_title }}</a>
+<nav class="{{ page_settings.colors.navbar }}" style="overflow: hidden">
+
+    <span class="brand-logo">{{ page_settings.active_title }}</span>
+
     <ul id="slide-out" class="side-nav">
       {% include "compound_db/nav_links.html" %}
       <li class="no-padding">

@@ -4,7 +4,7 @@
 
 {% block base_content %}
     <div class="container">
-        <h3>Import Molecules From ChEMBL</h3>
+        <h3>Import ChEMBL Dataset</h3>
         <div class="divider"></div>
         {% include "compound_db/messages.html" with messages=messages %}
 
@@ -61,7 +61,7 @@
                 <p>
                     Operator to use when comparing values.
                     <div class="row">
-                        <div class="col s8">
+                        <div class="col s12 m8">
                             <div class="card-panel {{ page_settings.colors.note_cards }}">
                             <span class="white-text">
                                 For example, if you select '<=', only compounds with bioactivity values less

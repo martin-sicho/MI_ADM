@@ -1,5 +1,5 @@
 {% if field.errors %}
-    <div class="col s4">
+    <div class="col s12 m8">
         <ul class="collection">
             {% for error in field.errors %}
                 <li class="collection-item  {{ page_settings.colors.error_msgs }}"><strong>{{ error|escape }}</strong></li>
