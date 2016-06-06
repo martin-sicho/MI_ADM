@@ -18,11 +18,11 @@ from compound_db.utils import parse_filters, search_for_term
 JSON_MIME_TYPE = 'application/json'
 
 COLORS = {
-    'navbar' : 'indigo darken-2'
+    'navbar' : 'blue darken-2'
     , 'error_msgs' : 'red darken-3'
     , 'success_msgs' : 'light-green darken-2'
     , 'note_cards' : 'teal darken-2'
-    , 'footer' : 'indigo darken-3'
+    , 'footer' : 'blue darken-3'
     , 'buttons' : 'teal darken-1'
 }
 
@@ -108,7 +108,7 @@ def add_mol(req):
         'form' : form
         , 'page_settings' : {
             'navbar_active' : resolve(req.path_info).url_name
-            , 'active_title' : 'Add Molecule'
+            , 'active_title' : 'Create Molecule'
             , 'colors' : COLORS
         }
     })
@@ -145,7 +145,7 @@ def add_chembl_mols(req):
         'form' : form
         , 'page_settings' : {
             'navbar_active' : resolve(req.path_info).url_name
-            , 'active_title' : 'Import ChEMBL Dataset'
+            , 'active_title' : 'Import from ChEMBL'
             , 'colors' : COLORS
         }
     })
