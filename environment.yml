@@ -78,12 +78,15 @@ dependencies:
   - django==1.9.2
   - django-rdkit==0.0.4
   - easydict==1.6
+  - future==0.15.2
   - greenlet==0.4.9
   - grequests==0.2.0
+  - h2o==3.8.2.8
   - ipython-genutils==0.1.0
   - jupyter-client==4.1.1
   - jupyter-console==4.1.0
   - jupyter-core==4.0.6
-  - requests==2.5.3
+  - requests==2.10.0
   - requests-cache==0.4.12
+  - tabulate==0.7.5
   - urllib3==1.15
