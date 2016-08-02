@@ -1,6 +1,6 @@
 /deps
-/*.sqlite
-/*.sqlite3
+*.sqlite
+*.sqlite3
 /.idea/
 /MI_ADM_website/db.pass
 /MI_ADM_website/secret_key.txt
