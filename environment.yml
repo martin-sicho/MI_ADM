@@ -81,7 +81,6 @@ dependencies:
   - future==0.15.2
   - greenlet==0.4.9
   - grequests==0.2.0
-  - h2o==3.8.2.8
   - ipython-genutils==0.1.0
   - jupyter-client==4.1.1
   - jupyter-console==4.1.0
